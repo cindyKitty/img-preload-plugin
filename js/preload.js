@@ -5,14 +5,44 @@
   	this.opts = $.extend({}, PreLoad.DEFAULTS, options);
 
     // 方法加_表明，只在内部使用，而不提供外部调用
-  	this._unoredered();
+  	if (this.opts.order === 'ordered') {
+      this._ordered();
+    } else {
+      this._unordered()
+    }
   }
   PreLoad.DEFAULTS = {
+    order: 'unordered', // 无序预加载
   	each: null, // 每一张图片加载完毕后执行
   	all: null // 所有图片加载完毕后执行
   };
   // 方法写在原型上，每次实例化的时候都可以保持一份
-  PreLoad.prototype._unoredered = function () { // 无序加载
+  PreLoad.prototype._ordered = function () { // 有序加载
+    var opts = this.opts,
+        imgs = this.imgs,
+        len = imgs.length,
+        count = 0;
+    load();
+    // 有序预加载
+    function load() {
+      var imgObj = new Image();
+      // 每次图片加载完成或错误执行的代码
+      $(imgObj).on('load error', function () {
+        opts.each && opts.each(count);
+
+        if(count >=len) {
+          // 所有图片已经加载完毕
+          opts.all && opts.all();
+        } else {
+          load();
+        }
+        count++;
+      });
+
+      imgObj.src = imgs[count];
+    }
+  }
+  PreLoad.prototype._unordered = function () { // 无序加载
     var imgs = this.imgs,
         opts = this.opts,
         count = 0,

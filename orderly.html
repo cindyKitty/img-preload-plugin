@@ -37,8 +37,9 @@
     </p>
   </div>
    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+   <script src="js/preload.js"></script>
    <script type="text/javascript">
-   	var imgs = [
+   	/*var imgs = [
 	  "http://mvimg2.meitudata.com/56f66638bac8f619.jpg",
 	  "http://mvimg1.meitudata.com/56efcb602ad0f8545.jpg",
 	  "http://mvimg1.meitudata.com/56f66832339477906.jpg",
@@ -66,6 +67,32 @@
 
 	  imgObj.src = imgs[count];
 	}
+
+    $('.btn').on('click',function(){
+		if($(this).data('control') ==='prev'){//上一张			
+		  index = Math.max(0,--index)
+		} else {//下一张
+		  index = Math.min(len-1, ++index)
+		}
+		document.title = (index+1) + '/' +len;
+		$('#img').attr('src', imgs[index]);
+	})*/
+
+	var imgs = [
+	  "http://mvimg2.meitudata.com/56f66638bac8f619.jpg",
+	  "http://mvimg1.meitudata.com/56efcb602ad0f8545.jpg",
+	  "http://mvimg1.meitudata.com/56f66832339477906.jpg",
+	  "https://a-ssl.duitang.com/uploads/item/201403/17/20140317112914_4wLaj.thumb.700_0.jpeg",
+	  "http://mvimg2.meitudata.com/56f4dac9bac9b1515.jpg",
+	  "http://mvimg2.meitudata.com/55e12f60c910b848.jpg!thumb480",
+	  "http://cdn.duitang.com/uploads/item/201402/07/20140207224418_YVLUt.thumb.600_0.jpeg"
+	];
+	var len = imgs.length,
+	    index = 0;
+
+	$.preload(imgs, {
+		order: 'ordered'
+	})
 
     $('.btn').on('click',function(){
 		if($(this).data('control') ==='prev'){//上一张			
