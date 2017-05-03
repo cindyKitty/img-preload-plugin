@@ -20,11 +20,11 @@
 
   	$.each(imgs, function (i,src) {
   		if(typeof src != 'string') return;
-		var imgObj = new Image();
-		// Image对象有两个事件，如果图片被正常加载会触发一个load事件；如果没被正常加载会触发error事件
-		$(imgObj).on('load error', function (){
-            // 如果存在的话，再去执行它
-            opts.each && opts.each(count);
+		  var imgObj = new Image();
+		  // Image对象有两个事件，如果图片被正常加载会触发一个load事件；如果没被正常加载会触发error事件
+		  $(imgObj).on('load error', function (){
+        // 如果存在的话，再去执行它
+        opts.each && opts.each(count);
 
 			if (count >= len-1) {
 			   opts.all && opts.all();
