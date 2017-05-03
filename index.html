@@ -29,6 +29,19 @@
 		.btn:hover{
 			background-color: #ddd;
 		}
+		.loading {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #eee;
+			text-align: center;
+			font-size: 30px;
+		}
+		.progress {
+			margin-top: 300px;
+		}
 	</style>
 </head>
 <body>
@@ -38,6 +51,9 @@
     	<a href="javascript:;" class="btn" data-control="prev">上一页</a>
     	<a href="javascript:;" class="btn" data-control="next">下一页</a>
     </p>
+  </div>
+  <div class="loading">
+  	<p class="progress">0%</p>
   </div>
   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
@@ -49,7 +65,22 @@
 	  'http://a4.att.hudong.com/06/77/01300000252101123035776154226.jpg'
 	];
 	var index = 0,
-	    len = imgs.length;
+	    len = imgs.length,
+	    count =0,
+	    $progress = $('.progress');
+	$.each(imgs, function (i,src) {
+		var imgObj = new Image();
+		// Image对象有两个事件，如果图片被正常加载会触发一个load事件；如果没被正常加载会触发error事件
+		$(imgObj).on('load error', function (){
+			$progress.html(Math.round((count + 1) / len * 100) + '%')
+			if (count >= len-1) {
+			   $('.loading').hide();
+			   document.title = '1/' + len;
+			}
+			count++;
+		});
+		imgObj.src = src;
+	})
 	$('.btn').on('click',function(){
 		if($(this).data('control') ==='prev'){//上一张			
 		  index = Math.max(0,--index)
